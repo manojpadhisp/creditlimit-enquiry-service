@@ -3,9 +3,12 @@
  */
 package com.tesco.enquiry.intg.dao;
 
+import org.springframework.stereotype.Component;
+
 /**
  * @Author Manoj by 17-Jul-2023
  */
-public class CreditLmitEnquiryDaoImpl {
+@Component
+public class CreditLimitEnquiryDaoImpl implements ICreditLimitEnquiryDao{
 
 }

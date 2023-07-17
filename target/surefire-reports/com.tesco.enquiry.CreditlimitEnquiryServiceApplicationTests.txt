@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.tesco.enquiry.CreditlimitEnquiryServiceApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.624 s - in com.tesco.enquiry.CreditlimitEnquiryServiceApplicationTests

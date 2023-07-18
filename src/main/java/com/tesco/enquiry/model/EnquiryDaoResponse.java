@@ -6,6 +6,6 @@ package com.tesco.enquiry.model;
 /**
  * @Author Manoj by 17-Jul-2023
  */
-public class EnquityDaoResponse {
+public class EnquiryDaoResponse {
 
 }

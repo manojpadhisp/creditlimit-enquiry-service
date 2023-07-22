@@ -3,9 +3,19 @@
  */
 package com.tesco.enquiry.model;
 
+import lombok.Data;
+
 /**
  * @Author Manoj by 17-Jul-2023
  */
+@Data
 public class EnquiryResponse {
+	
+	private String cardNum;
+	private String cvv;
+	private long availableAmount;
+	private long increaseAmount;
+	private float increasePeer;
+	
 
 }

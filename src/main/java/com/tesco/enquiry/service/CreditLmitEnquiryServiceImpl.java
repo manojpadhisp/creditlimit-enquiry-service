@@ -24,7 +24,7 @@ public class CreditLmitEnquiryServiceImpl implements ICreditLmitEnquiryService {
 	@Override
 	public EnquiryResponse enquiry(EnquiryRequest creditLimitRequest) {
 		// TODO Auto-generated method stub
-		
+		System.out.println("Enter into service");
 		//1. Get the reuest from controller
 		
 		//2. Prpare the request for integration layer
@@ -33,7 +33,18 @@ public class CreditLmitEnquiryServiceImpl implements ICreditLmitEnquiryService {
 		//3. call the integation layer and get the resposne.
 		EnquiryDaoRequest enquiryDaoRequest= new EnquiryDaoRequest();
 		EnquiryDaoResponse daoResp=creditLimitDao.enquiry(enquiryDaoRequest);
-		return null;
+		
+		
+		//4 prepare the service resposne
+		EnquiryResponse enquiryResponse = new EnquiryResponse();
+		enquiryResponse.setAvailableAmount(daoResp.getAvailableAmount());
+		enquiryResponse.setCardNum(daoResp.getCardNum());
+		enquiryResponse.setCvv(daoResp.getCvv());
+		enquiryResponse.setIncreaseAmount(daoResp.getIncreaseAmont());
+		enquiryResponse.setIncreasePeer(daoResp.getIncreasePeer());
+		System.out.println("Exit into service");
+		
+		return enquiryResponse;
 	}
 	
 	

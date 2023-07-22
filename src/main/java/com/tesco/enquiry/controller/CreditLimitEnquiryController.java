@@ -39,6 +39,7 @@ public class CreditLimitEnquiryController
 													  @RequestHeader("request_id") String requestid  )
 	{
 		
+		System.out.println("Enter into controller");
 		//1. get tge request from consumer/client
 		
 		EnquiryRequest creditLimitRequest= new EnquiryRequest();
@@ -50,7 +51,9 @@ public class CreditLimitEnquiryController
 		
 		//4. Call service class and get the resposne
 		EnquiryResponse enquiryResponse = creditLmitService.enquiry(creditLimitRequest);
-		return null;
+		
+		System.out.println("Exit into controller");
+		return enquiryResponse;
 		
 	}
 	

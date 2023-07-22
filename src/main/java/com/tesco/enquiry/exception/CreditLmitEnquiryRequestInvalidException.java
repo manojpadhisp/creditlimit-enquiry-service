@@ -6,6 +6,7 @@ package com.tesco.enquiry.exception;
 /**
  * @Author Manoj by 17-Jul-2023
  */
-public class CreditLmitEnquiryRequestInvalidException {
+public class CreditLmitEnquiryRequestInvalidException extends Exception{
 
+	
 }

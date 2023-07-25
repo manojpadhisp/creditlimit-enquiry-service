@@ -41,16 +41,22 @@ public class CreditLimitEnquiryController
 		
 		System.out.println("Enter into controller");
 		//1. get tge request from consumer/client
+		EnquiryRequest enquiryRequest= new EnquiryRequest();
+		enquiryRequest.setPromocode(promocode);
+		enquiryRequest.setClientId(clientId);
+		enquiryRequest.setChannelId(channelId);
+		enquiryRequest.setMessageId(messageId);
+		enquiryRequest.setRequestid(requestid);
 		
-		EnquiryRequest creditLimitRequest= new EnquiryRequest();
+		//EnquiryRequest creditLimitRequest= new EnquiryRequest();
 		
 		//2. Validate the request
 		
-		creditLmitEnquiryValidator.validateRequest(creditLimitRequest);
+		creditLmitEnquiryValidator.validateRequest(enquiryRequest);
 		//3.Prepare the request for service class
 		
 		//4. Call service class and get the resposne
-		EnquiryResponse enquiryResponse = creditLmitService.enquiry(creditLimitRequest);
+		EnquiryResponse enquiryResponse = creditLmitService.enquiry(enquiryRequest);
 		
 		System.out.println("Exit into controller");
 		return enquiryResponse;

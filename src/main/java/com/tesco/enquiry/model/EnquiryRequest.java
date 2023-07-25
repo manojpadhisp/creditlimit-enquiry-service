@@ -12,10 +12,10 @@ import lombok.Data;
  */
 @Data
 public class EnquiryRequest {
-
+     private String promocode;
 	 private String clientId;
 	 private String channelId;
 	 private String messageId;
 	 private String requestid;
-		
+
 }

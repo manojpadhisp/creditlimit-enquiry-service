@@ -5,6 +5,8 @@ package com.tesco.enquiry.intg.dao;
 
 import org.springframework.stereotype.Component;
 
+import com.tesco.enquiry.exception.BusinessException;
+import com.tesco.enquiry.exception.SystemException;
 import com.tesco.enquiry.model.EnquiryDaoRequest;
 import com.tesco.enquiry.model.EnquiryDaoResponse;
 
@@ -19,26 +21,61 @@ import lombok.Setter;
 public class CreditLimitEnquiryDaoImpl implements ICreditLimitEnquiryDao{
 
 	@Override
-	public EnquiryDaoResponse enquiry(EnquiryDaoRequest enquiryDaoRequest) {
+	public EnquiryDaoResponse enquiry(EnquiryDaoRequest enquiryDaoRequest) throws BusinessException,SystemException{
 		// TODO Auto-generated method stub
 		
 		System.out.println("Enter into DAO");
 		
-		//1 .get the request from service layer
-		
-		//2 prapre the request fro database
-		
 		//3 call the database and get the resposne
-		EnquiryDaoResponse enquiryDaoResponse= new EnquiryDaoResponse();
+		EnquiryDaoResponse enquiryDaoResponse;
+		try {
+			//1 .get the request from service layer
+			
+			//2 prapre the request fro database
+			
+			String dbRespCode="0";
+			String dbRespMsg="success";
+			
+			enquiryDaoResponse = new EnquiryDaoResponse();
+			
+			if("0".equals(dbRespCode))
+			{		
+				enquiryDaoResponse.setRespCode("0");
+				enquiryDaoResponse.setRespMsg("success");
+				
+				enquiryDaoResponse.setAvailableAmount(1000);
+				enquiryDaoResponse.setCardNum("123456789");
+				enquiryDaoResponse.setCvv("123");
+				enquiryDaoResponse.setIncreaseAmont(50000);
+				enquiryDaoResponse.setIncreasePeer(0.5f);
+			
+			}
+			else if("100".equals(dbRespCode) || "101".equals(dbRespCode) || "102".equals(dbRespCode))
+			{
+				
+				throw new BusinessException(dbRespCode,dbRespMsg);
+			}
+			else
+			{			
+				throw new SystemException(dbRespCode,dbRespMsg);
+			}
+		} catch (BusinessException be) {
+			
+			throw be;
+		}
+		catch (SystemException se) {
+			
+			throw se;
+		}
 		
-		enquiryDaoResponse.setRespCode("0");
-		enquiryDaoResponse.setRespMsg("success");
 		
-		enquiryDaoResponse.setAvailableAmount(1000);
-		enquiryDaoResponse.setCardNum("123456789");
-		enquiryDaoResponse.setCvv("123");
-		enquiryDaoResponse.setIncreaseAmont(50000);
-		enquiryDaoResponse.setIncreasePeer(0.5f);
+		
+		//enquiryDaoResponse.setRespCode("0");
+		//enquiryDaoResponse.setRespMsg("success");
+		
+		
+		
+	
 		
 		System.out.println("Exit into dao");
 		return enquiryDaoResponse;

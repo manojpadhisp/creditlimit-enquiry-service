@@ -6,6 +6,8 @@ package com.tesco.enquiry.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.tesco.enquiry.exception.BusinessException;
+import com.tesco.enquiry.exception.SystemException;
 import com.tesco.enquiry.intg.dao.ICreditLimitEnquiryDao;
 import com.tesco.enquiry.model.CustomerInfo;
 import com.tesco.enquiry.model.EnquiryDaoRequest;
@@ -24,7 +26,7 @@ public class CreditLmitEnquiryServiceImpl implements ICreditLmitEnquiryService {
 	ICreditLimitEnquiryDao creditLimitDao;
 
 	@Override
-	public EnquiryResponse enquiry(EnquiryRequest creditLimitRequest) {
+	public EnquiryResponse enquiry(EnquiryRequest creditLimitRequest) throws BusinessException,SystemException{
 		// TODO Auto-generated method stub
 		System.out.println("Enter into service");
 		//1. Get the reuest from controller

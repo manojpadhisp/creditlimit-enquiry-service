@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.tesco.enquiry.exception.BusinessException;
 import com.tesco.enquiry.exception.CreditLmitEnquiryRequestInvalidException;
+import com.tesco.enquiry.exception.SystemException;
 import com.tesco.enquiry.model.EnquiryResponse;
 import com.tesco.enquiry.model.StatusBlock;
 
@@ -24,14 +26,7 @@ public class CreditLimitEnquiryAdvice {
 	public ResponseEntity<EnquiryResponse> handleLmitEnquiryRequestInvalidException(
 			CreditLmitEnquiryRequestInvalidException exception )
 	{
-		EnquiryResponse enquiryResponse= new EnquiryResponse();
-		
-		StatusBlock statusBlock= new StatusBlock();
-		
-		statusBlock.setRespCode(exception.getRespCode());
-		statusBlock.setRespMsg(exception.getRespMsg());
-		
-		enquiryResponse.setStatusBlock(statusBlock);
+		EnquiryResponse enquiryResponse = buildErrorResponse(exception.getRespCode(),exception.getRespMsg());
 		
 		//enquiryResponse.setRespCode(exception.getRespCode());
 		//enquiryResponse.setRespMsg(exception.getRespMsg());
@@ -39,6 +34,60 @@ public class CreditLimitEnquiryAdvice {
 		
 		return new ResponseEntity<EnquiryResponse>(enquiryResponse,HttpStatus.BAD_REQUEST);
 	}
+	
+	
+	//
+	@ResponseBody
+	@ExceptionHandler(value = BusinessException.class)
+	public ResponseEntity<EnquiryResponse> handleDataError(BusinessException exception)			
+	{
+		EnquiryResponse enquiryResponse = buildErrorResponse(exception.getRespCode(),exception.getRespMsg());
+		
+		//enquiryResponse.setRespCode(exception.getRespCode());
+		//enquiryResponse.setRespMsg(exception.getRespMsg());
+		
+		
+		return new ResponseEntity<EnquiryResponse>(enquiryResponse,HttpStatus.BAD_REQUEST);
+	}
+
+	@ResponseBody
+	@ExceptionHandler(value = SystemException.class)
+	public ResponseEntity<EnquiryResponse> handleSystemError(SystemException exception)			
+	{
+		EnquiryResponse enquiryResponse = buildErrorResponse(exception.getRespCode(),exception.getRespMsg());
+		
+		//enquiryResponse.setRespCode(exception.getRespCode());
+		//enquiryResponse.setRespMsg(exception.getRespMsg());		
+		
+		return new ResponseEntity<EnquiryResponse>(enquiryResponse,HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	//Generic erro
+	@ResponseBody
+	@ExceptionHandler(value = Exception.class)
+	public ResponseEntity<EnquiryResponse> handleGenericErrors(Exception exception)			
+	{
+		EnquiryResponse enquiryResponse = buildErrorResponse("8888","Unknown error");
+		
+		//enquiryResponse.setRespCode(exception.getRespCode());
+		//enquiryResponse.setRespMsg(exception.getRespMsg());		
+		
+		return new ResponseEntity<EnquiryResponse>(enquiryResponse,HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+		
+		
+	private EnquiryResponse buildErrorResponse(String respCode, String respMsg) {
+		EnquiryResponse enquiryResponse= new EnquiryResponse();
+		
+		StatusBlock statusBlock= new StatusBlock();
+		
+		statusBlock.setRespCode(respCode);
+		statusBlock.setRespMsg(respMsg);
+		
+		enquiryResponse.setStatusBlock(statusBlock);
+		return enquiryResponse;
+	}
+	
 	
 
 }

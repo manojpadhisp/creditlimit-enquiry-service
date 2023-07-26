@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tesco.enquiry.exception.BusinessException;
+import com.tesco.enquiry.exception.CreditLmitEnquiryRequestInvalidException;
+import com.tesco.enquiry.exception.SystemException;
 import com.tesco.enquiry.model.EnquiryRequest;
 import com.tesco.enquiry.model.EnquiryResponse;
 import com.tesco.enquiry.service.ICreditLmitEnquiryService;
@@ -38,7 +41,7 @@ public class CreditLimitEnquiryController
 													  @RequestHeader("client_id") String clientId,
 													  @RequestHeader("channel_id") String channelId,
 													  @RequestHeader("message_ts") String messageId,
-													  @RequestHeader("request_id") String requestid  )
+													  @RequestHeader("request_id") String requestid ) throws CreditLmitEnquiryRequestInvalidException, BusinessException,SystemException
 	{
 		
 		System.out.println("Enter into controller");

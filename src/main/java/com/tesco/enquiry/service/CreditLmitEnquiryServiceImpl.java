@@ -7,10 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.tesco.enquiry.intg.dao.ICreditLimitEnquiryDao;
+import com.tesco.enquiry.model.CustomerInfo;
 import com.tesco.enquiry.model.EnquiryDaoRequest;
 import com.tesco.enquiry.model.EnquiryDaoResponse;
 import com.tesco.enquiry.model.EnquiryRequest;
 import com.tesco.enquiry.model.EnquiryResponse;
+import com.tesco.enquiry.model.StatusBlock;
 
 /**
  * @Author Manoj by 17-Jul-2023
@@ -31,17 +33,32 @@ public class CreditLmitEnquiryServiceImpl implements ICreditLmitEnquiryService {
 		
 		
 		//3. call the integation layer and get the resposne.
+		
+		
+		
 		EnquiryDaoRequest enquiryDaoRequest= new EnquiryDaoRequest();
 		EnquiryDaoResponse daoResp=creditLimitDao.enquiry(enquiryDaoRequest);
 		
 		
 		//4 prepare the service resposne
 		EnquiryResponse enquiryResponse = new EnquiryResponse();
-		enquiryResponse.setAvailableAmount(daoResp.getAvailableAmount());
-		enquiryResponse.setCardNum(daoResp.getCardNum());
-		enquiryResponse.setCvv(daoResp.getCvv());
-		enquiryResponse.setIncreaseAmount(daoResp.getIncreaseAmont());
-		enquiryResponse.setIncreasePeer(daoResp.getIncreasePeer());
+		
+		StatusBlock statusBlock= new StatusBlock();		
+		
+		statusBlock.setRespCode(daoResp.getRespCode());
+		statusBlock.setRespMsg(daoResp.getRespMsg());		
+		enquiryResponse.setStatusBlock(statusBlock);
+		
+		CustomerInfo customerInfo = new CustomerInfo();		
+		
+		customerInfo.setAvailableAmount(daoResp.getAvailableAmount());
+		customerInfo.setCardNum(daoResp.getCardNum());
+		customerInfo.setCvv(daoResp.getCvv());
+		customerInfo.setIncreaseAmount(daoResp.getIncreaseAmont());
+		customerInfo.setIncreasePeer(daoResp.getIncreasePeer());
+		
+		enquiryResponse.setCustomerInfo(customerInfo);
+		
 		System.out.println("Exit into service");
 		
 		return enquiryResponse;

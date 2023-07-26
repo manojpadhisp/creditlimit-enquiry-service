@@ -6,23 +6,14 @@ package com.tesco.enquiry.model;
 import lombok.Data;
 
 /**
- * @Author Manoj by 17-Jul-2023
+ * @Author Manoj by 26-Jul-2023
  */
-
 @Data
-public class EnquiryDaoResponse {
-	
-	private String respCode;
-	private String respMsg;
-	
-	
+public class CustomerInfo {
+
 	private String cardNum;
 	private String cvv;
 	private long availableAmount;
-	private long increaseAmont;
+	private long increaseAmount;
 	private float increasePeer;
-	
-	
-	
-
 }

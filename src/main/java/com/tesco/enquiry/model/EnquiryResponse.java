@@ -15,14 +15,19 @@ import lombok.Data;
 @JsonInclude(value = Include.NON_NULL)
 public class EnquiryResponse {
 	
-	private String respCode;
-	private String respMsg;
+	private StatusBlock statusBlock;
+	private CustomerInfo customerInfo;
 	
+	/*
+	private String respCode;
+	private String respMsg;*/
+	
+	/*
 	private String cardNum;
 	private String cvv;
 	private long availableAmount;
 	private long increaseAmount;
-	private float increasePeer;
+	private float increasePeer;*/
 	
 
 }

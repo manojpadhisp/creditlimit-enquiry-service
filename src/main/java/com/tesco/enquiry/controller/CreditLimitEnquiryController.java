@@ -4,6 +4,8 @@
 package com.tesco.enquiry.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -32,7 +34,7 @@ public class CreditLimitEnquiryController
 	@GetMapping("enquiry/{promocode}")
 	@ResponseBody
 	
-	public EnquiryResponse enquiry(@PathVariable("promocode") String promocode,
+	public ResponseEntity<EnquiryResponse> enquiry(@PathVariable("promocode") String promocode,
 													  @RequestHeader("client_id") String clientId,
 													  @RequestHeader("channel_id") String channelId,
 													  @RequestHeader("message_ts") String messageId,
@@ -59,7 +61,7 @@ public class CreditLimitEnquiryController
 		EnquiryResponse enquiryResponse = creditLmitService.enquiry(enquiryRequest);
 		
 		System.out.println("Exit into controller");
-		return enquiryResponse;
+		return new ResponseEntity<EnquiryResponse>(enquiryResponse,HttpStatus.OK);
 		
 	}
 	

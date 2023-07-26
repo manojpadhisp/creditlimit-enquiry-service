@@ -31,6 +31,9 @@ public class CreditLimitEnquiryDaoImpl implements ICreditLimitEnquiryDao{
 		//3 call the database and get the resposne
 		EnquiryDaoResponse enquiryDaoResponse= new EnquiryDaoResponse();
 		
+		enquiryDaoResponse.setRespCode("0");
+		enquiryDaoResponse.setRespMsg("success");
+		
 		enquiryDaoResponse.setAvailableAmount(1000);
 		enquiryDaoResponse.setCardNum("123456789");
 		enquiryDaoResponse.setCvv("123");

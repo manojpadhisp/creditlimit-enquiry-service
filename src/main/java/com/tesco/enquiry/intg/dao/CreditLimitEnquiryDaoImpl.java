@@ -9,6 +9,8 @@ import com.tesco.enquiry.exception.BusinessException;
 import com.tesco.enquiry.exception.SystemException;
 import com.tesco.enquiry.model.EnquiryDaoRequest;
 import com.tesco.enquiry.model.EnquiryDaoResponse;
+import com.tesco.enquiry.util.CreditLmitEnquiryConstant;
+import com.tesco.enquiry.util.CreditLmitEnquiryErrorEnum;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -38,7 +40,7 @@ public class CreditLimitEnquiryDaoImpl implements ICreditLimitEnquiryDao{
 			
 			enquiryDaoResponse = new EnquiryDaoResponse();
 			
-			if("0".equals(dbRespCode))
+			if(CreditLmitEnquiryConstant.ZERO.equals(dbRespCode))
 			{		
 				enquiryDaoResponse.setRespCode("0");
 				enquiryDaoResponse.setRespMsg("success");
@@ -50,7 +52,7 @@ public class CreditLimitEnquiryDaoImpl implements ICreditLimitEnquiryDao{
 				enquiryDaoResponse.setIncreasePeer(0.5f);
 			
 			}
-			else if("100".equals(dbRespCode) || "101".equals(dbRespCode) || "102".equals(dbRespCode))
+			else if(CreditLmitEnquiryErrorEnum.checkErrorCode(dbRespCode,"data error"))
 			{
 				
 				throw new BusinessException(dbRespCode,dbRespMsg);

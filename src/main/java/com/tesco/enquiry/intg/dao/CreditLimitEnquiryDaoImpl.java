@@ -3,8 +3,14 @@
  */
 package com.tesco.enquiry.intg.dao;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Types;
+
 import org.springframework.stereotype.Component;
 
+import com.mysql.cj.jdbc.CallableStatement;
 import com.tesco.enquiry.exception.BusinessException;
 import com.tesco.enquiry.exception.SystemException;
 import com.tesco.enquiry.model.EnquiryDaoRequest;
@@ -31,27 +37,50 @@ public class CreditLimitEnquiryDaoImpl implements ICreditLimitEnquiryDao{
 		//3 call the database and get the resposne
 		EnquiryDaoResponse enquiryDaoResponse;
 		try {
-			//1 .get the request from service layer
+		
+			Class.forName("com.mysql.jdbc.Driver");			
+			Connection con= DriverManager.getConnection("jdbc:mysql://localhost:3306/javadb","root","manoj");
+						
+			String sql= "CALL javadb.enquiry_V10001(?, ?, ?, ?, ?)";	
 			
-			//2 prapre the request fro database
+			CallableStatement cs= (CallableStatement) con.prepareCall(sql);
 			
-			String dbRespCode="0";
-			String dbRespMsg="success";
+			//Input param
+			cs.setString(1, enquiryDaoRequest.getClientId());
+			cs.setString(2, enquiryDaoRequest.getChannelId());
+			cs.setString(3, enquiryDaoRequest.getPromoCode());
 			
-			enquiryDaoResponse = new EnquiryDaoResponse();
+			//Setting output param
+			cs.registerOutParameter(4, Types.VARCHAR);
+			cs.registerOutParameter(5, Types.VARCHAR);			
+			
+			
+			cs.execute();
+			//execeute the storedprocedure
+			ResultSet rs= cs.executeQuery();
+			
+			String dbRespCode=cs.getString(4);
+			String dbRespMsg=cs.getString(5);
 			
 			if(CreditLmitEnquiryConstant.ZERO.equals(dbRespCode))
-			{		
-				enquiryDaoResponse.setRespCode("0");
-				enquiryDaoResponse.setRespMsg("success");
+			{
+				enquiryDaoResponse = new EnquiryDaoResponse();
+				while(rs.next())
+				{
+					enquiryDaoResponse.setRespCode(dbRespCode);
+					enquiryDaoResponse.setRespMsg(dbRespMsg);
+					
+					enquiryDaoResponse.setAvailableAmount(Long.valueOf(rs.getString("availableLimit")));
+					enquiryDaoResponse.setIncreaseAmont(Long.valueOf(rs.getString("eligibleamount")));
+					
+					enquiryDaoResponse.setCardNum(rs.getString("Cardnum"));
+					enquiryDaoResponse.setCvv(rs.getString("cvv"));
+					enquiryDaoResponse.setExpdate(rs.getString("Expdate"));
+					enquiryDaoResponse.setNameoncard(rs.getString("Nameoncard"));
+					enquiryDaoResponse.setIncreasePeer(0.5f);
 				
-				enquiryDaoResponse.setAvailableAmount(1000);
-				enquiryDaoResponse.setCardNum("123456789");
-				enquiryDaoResponse.setCvv("123");
-				enquiryDaoResponse.setIncreaseAmont(50000);
-				enquiryDaoResponse.setIncreasePeer(0.5f);
-			
-			}
+				}
+			}	
 			else if(CreditLmitEnquiryErrorEnum.checkErrorCode(dbRespCode,"data error"))
 			{
 				
@@ -70,6 +99,10 @@ public class CreditLimitEnquiryDaoImpl implements ICreditLimitEnquiryDao{
 			throw se;
 		}
 		
+		catch (Exception e) {
+				e.printStackTrace();
+				throw new SystemException("8888","Unknown error from db");
+			}
 		
 		
 		//enquiryDaoResponse.setRespCode("0");
@@ -79,7 +112,7 @@ public class CreditLimitEnquiryDaoImpl implements ICreditLimitEnquiryDao{
 		
 	
 		
-		System.out.println("Exit into dao");
+		System.out.println("Exit into dao"+ enquiryDaoResponse);
 		return enquiryDaoResponse;
 	}
 	

@@ -18,6 +18,8 @@ public class EnquiryDaoResponse {
 	
 	private String cardNum;
 	private String cvv;
+	private String Expdate;
+	private String Nameoncard;
 	private long availableAmount;
 	private long increaseAmont;
 	private float increasePeer;

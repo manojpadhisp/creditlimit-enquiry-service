@@ -39,6 +39,12 @@ public class CreditLmitEnquiryServiceImpl implements ICreditLmitEnquiryService {
 		
 		
 		EnquiryDaoRequest enquiryDaoRequest= new EnquiryDaoRequest();
+		
+		enquiryDaoRequest.setClientId(creditLimitRequest.getClientId());
+		enquiryDaoRequest.setChannelId(creditLimitRequest.getChannelId());
+		enquiryDaoRequest.setPromoCode(creditLimitRequest.getPromocode());
+		
+		
 		EnquiryDaoResponse daoResp=creditLimitDao.enquiry(enquiryDaoRequest);
 		
 		

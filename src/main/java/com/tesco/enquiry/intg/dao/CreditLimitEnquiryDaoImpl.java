@@ -26,9 +26,10 @@ import lombok.Setter;
  */
 @Component
 
-public class CreditLimitEnquiryDaoImpl implements ICreditLimitEnquiryDao{
+public class CreditLimitEnquiryDaoImpl /*implements ICreditLimitEnquiryDao */{
 
-	@Override
+	//Comment this one due to JdbcDaoImp will call
+	//@Override
 	public EnquiryDaoResponse enquiry(EnquiryDaoRequest enquiryDaoRequest) throws BusinessException,SystemException{
 		// TODO Auto-generated method stub
 		
